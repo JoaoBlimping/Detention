@@ -1,0 +1,7 @@
+teaching1.png
+teaching2.png
+face.png
+brick.png
+sky.png
+clock.png
+hall.png

@@ -1,0 +1,30 @@
+body
+{
+  background-image:url("assets/graphic/background.png");
+  text-align:center;
+  color:white;
+}
+
+h1
+{
+  font-size:4.5em;
+  margin:0px;
+}
+
+table
+{
+  margin-left: auto;
+  margin-right: auto;
+  border:2px solid black;
+}
+
+td
+{
+  border:5px solid purple;
+  padding:0px;
+}
+
+canvas
+{
+  margin:0px;
+}

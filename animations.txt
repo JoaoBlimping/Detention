@@ -1,0 +1,2 @@
+tear.png_3_0.5
+walking.png_2_0.5
