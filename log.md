@@ -141,3 +141,8 @@ yeah actually I should probably make it that animations actually work.
 
 #4/7/2015
 made a wiping graphic and made animations work properly.
+
+#6/7/2015
+I have decided that I am going to make this game like not just have one play
+style but a whole heap and also a branching storyline kinda like revenge of the
+sunfish, but with a little bit more cohesion.
