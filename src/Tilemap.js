@@ -3,6 +3,7 @@
 
 
 $include Tileset.js$
+$include Factory.js$
 
 
 //creates a Tilemap
@@ -122,4 +123,29 @@ Tilemap.prototype.getWidth = function()
 Tilemap.prototype.getHeight = function()
 {
 	return this.data[0].length * this.tileset.tileHeight;
+};
+
+
+//makes Tilemaps
+var tilemapFactory = new Factory("Tilemap");
+
+
+//makes a Tilemap for you meme loving fucks
+//dataReader contains all the data it has to read
+tilemapFactory.make = function(dataReader)
+{
+	var width = parseInt(dataReader.readNext());
+	var height = parseInt(dataReader.readNext());
+
+	data = [];
+
+	for (var y = 0;y < height;y++)
+	{
+		data[x] = [];
+		for (var x = 0;x < width;x++)
+		{
+			data[x][y] = parseInt(dataReader.readNext());
+		}
+	}
+	return new Tilemap(data);
 };
