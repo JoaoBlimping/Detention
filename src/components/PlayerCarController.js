@@ -49,5 +49,4 @@ PlayerCarController.prototype.update = function(physics,parameters,level,
 	{
 		this.gun.shoot(entity);
 	}
-
 };
