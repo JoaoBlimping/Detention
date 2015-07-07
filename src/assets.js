@@ -19,7 +19,7 @@ const SE_DIRECTORY = "assets/se/";
 const MOB_DIRECTORY = "assets/mob/";
 
 //location of cutScene files
-const CUT_SCENE_DIRECTORY = "assets/cutscene/";
+const SCENE_DIRECTORY = "assets/scene/";
 
 
 //a singleton type thing which stores all of the assets we need and desire
@@ -28,7 +28,7 @@ var assets =
   graphics : [],
   sEs : [],
   mobDatas : [],
-  cutSceneDatas : []
+  sceneDatas : []
 };
 
 
@@ -88,19 +88,15 @@ assets.loadMobs = function(loadList)
 
 
 //makes it start loading data for cutscenes
-assets.loadCutsceneDatas = function(loadList)
+assets.loadSceneDatas = function(loadList)
 {
   var listReader = new StringReader(loadList);
 
   while (listReader.hasNext())
   {
     var name = listReader.readNext();
-    var loader = new DataLoader(CUT_SCENE_DIRECTORY + name);
-    loader.onload = function()
-    {
-      console.log(this.getData());
-    };
-    this.cutSceneDatas[name] = loader;
+    var loader = new DataLoader(SCENE_DIRECTORY + name);
+    this.sceneDatas[name] = loader;
   }
 };
 

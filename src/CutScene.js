@@ -4,15 +4,19 @@
 $include DataLoader.js$
 $include stringUtils.js$
 $include cutscene/Slide.js$
-$include cutscene/PictureGraphic.js$
 
 
 //creates the cutscene with no arguments
-var CutScene = function(slides)
+//slides is the slides that make up this CutScene
+//next is the factory input for the next scene
+var CutScene = function(slides,next)
 {
   //static properties
   CutScene.screenWidth = 777;
   CutScene.screenHeight = 555;
+
+  //the data of the scene that comes after this one
+  this.next = next;
 
   //the table which contains both the things
   this.table = document.createElement("table");
@@ -68,6 +72,11 @@ CutScene.prototype.update = function(deltaTime)
     this.bottomCell.removeChild(this.currentCaption);
   }
 
+  if (this.slides.length == 0)
+  {
+    return sceneFactory.make(new StringReader(assets.sceneDatas[this.next].getData()));
+  }
+
   this.slides[0].render(CutScene.screenWidth,CutScene.screenHeight,this.ctx,
                     deltaTime);
 
@@ -75,16 +84,25 @@ CutScene.prototype.update = function(deltaTime)
 };
 
 
+//a factory that makes CutScenes
+var cutSceneFactory = new Factory("CutScene");
+
+
 //the thing that makes the stuff
-var makeCutScene = function(data)
+cutSceneFactory.make = function(dataReader)
 {
-  var dataReader = new StringReader(data);
+  var next = dataReader.readNext();
 
   slides = [];
-  while (dataReader.hasNext())
+  while (true)
   {
+    data = dataReader.peekNext();
+    if (data == "END")
+    {
+      break;
+    }
     slides.push(makeSlide(dataReader));
   }
 
-  return new CutScene(slides);
+  return new CutScene(slides,next);
 };

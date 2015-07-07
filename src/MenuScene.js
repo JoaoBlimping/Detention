@@ -1,11 +1,12 @@
 //a menu where you start the game
 //7/6/2015
 
+$include stringUtils.js$
 $include SoundPlayer.js$
 $include CutScene.js$
 $include assets.js$
 
-const FIRST_CUT_SCENE = "1.pig";
+const FIRST_SCENE = "start.pig";
 
 
 //creates the MenuScene with no arguments
@@ -49,7 +50,7 @@ MenuScene.prototype.delete = function()
   document.body.removeChild(this.subTitle);
   document.body.removeChild(this.picture);
   document.body.removeChild(this.fuckYeahs);
-}
+};
 
 
 //updates the MenuScene, although it does nothing
@@ -67,7 +68,7 @@ MenuScene.prototype.update = function(deltaTime)
     this.countdown -= deltaTime;
     if (this.countdown <= 0)
     {
-      return makeCutScene(assets.cutSceneDatas[FIRST_CUT_SCENE].getData());
+      return sceneFactory.make(new StringReader(assets.sceneDatas[FIRST_SCENE].getData()));
     }
   }
   return this;

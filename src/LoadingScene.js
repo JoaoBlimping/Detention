@@ -21,7 +21,7 @@ var LoadingScene = function()
   assets.loadSprites("$insert ../sprites.txt$");
   assets.loadAnimations("$insert ../animations.txt$");
   assets.loadSEs("$insert ../sEs.txt$");
-  assets.loadCutsceneDatas("1.pig");
+  assets.loadSceneDatas("$insert ../scenes.txt$");
 };
 
 
@@ -55,4 +55,15 @@ LoadingScene.prototype.update = function(deltaTime)
   }
 
   return new MenuScene();
+};
+
+
+//a factory that makes LoadingScenes
+var loadingSceneFactory = new Factory("LoadingScene");
+
+
+//the thing that makes the stuff
+loadingSceneFactory.make = function(dataReader)
+{
+  return new LoadingScene();
 };

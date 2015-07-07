@@ -15,7 +15,6 @@ var DataLoader = function(url)
   this.iframe.onload = function()
   {
     this.ready = true;
-    this.owner.onload();
   };
 };
 

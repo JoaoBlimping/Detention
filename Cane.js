@@ -1,107 +1,7 @@
 //the main loop of the program
 //6/6/2015
 
-//just says loading and sets up some stuff to load and waits for it
-//19/6/2015
 
-//a menu where you start the game
-//7/6/2015
-
-//a thing that plays sounds properly
-//8/6/2015
-
-
-//creates the SoundPlayer
-//src is the sound file it plays
-var SoundPlayer = function(src)
-{
-  this.sound = new Audio(src);
-  this.sound.ready = false;
-  this.sound.playing = false;
-
-  //when the sound can play all the way through
-  this.sound.oncanplaythrough = function()
-  {
-    this.ready = true;
-  };
-
-  //when the sound finishes playing
-  this.sound.onended = function()
-  {
-    this.playing = false;
-  };
-
-};
-
-//plays the sound
-SoundPlayer.prototype.play = function()
-{
-  if (this.sound.ready)
-  {
-    this.sound.currentTime = 0;
-    this.sound.play();
-    this.sound.playing = true;
-  }
-};
-
-
-//tells you if the sound is ready to play
-SoundPlayer.prototype.isReady = function()
-{
-  return this.sound.ready;
-};
-
-
-//tells you if the sound is currently playing
-SoundPlayer.prototype.isPlaying = function()
-{
-  return this.sound.playing;
-}
-//a scene that shows cutscenes
-//9/6/2015
-
-//loads things somehow
-//9/6/2015
-
-
-//creates the dataloader
-//url is the address of the data to load
-var DataLoader = function(url)
-{
-  this.iframe = document.createElement("iframe");
-  document.body.appendChild(this.iframe);
-  this.iframe.src = url;
-  this.iframe.hidden = true;
-  this.iframe.ready = false;
-  this.iframe.owner = this;
-  this.iframe.onload = function()
-  {
-    this.ready = true;
-    this.owner.onload();
-  };
-};
-
-
-//tells you if the loader is ready yet
-//return true iff it is
-DataLoader.prototype.isReady = function()
-{
-  return this.iframe.ready;
-};
-
-//gets you the data that it loaded
-//return the data
-DataLoader.prototype.getData = function()
-{
-  if (!this.isReady())
-  {
-    console.log("bloody ebola");
-    return 666;
-  }
-
-  var iDocument = this.iframe.contentDocument || this.iframe.contentWindow.document;
-  return iDocument.getElementsByTagName("pre")[0].innerHTML;
-};
 //some utilities for strings
 //10/6/2015
 
@@ -189,28 +89,9 @@ StringReader.prototype.peekNext = function()
   }
   return this.rawString.substring(start);
 };
-//a slide in a CutScene
-//9/6/2015
+//contains an abstract factory that makes scenes of various specifications
+//6/7/2015
 
-//a prototype for a thing that makes stuff
-//9/6/2015
-
-
-//makes a factory with a name
-var Factory = function(identifier)
-{
-  this.identifier = identifier;
-};
-
-
-//you are meant to override this to make it make whatever your heart desires!
-//data the content to make it from
-Factory.prototype.make = function(dataReader)
-{
-  console.log("Factory.make is meant to be overridden");
-};
-//a factory that makes graphics
-//9/6/2015
 
 //a factory that is made of more factories!! pingazzzzzzz
 //10/6/2015
@@ -241,6 +122,129 @@ AbstractFactory.prototype.make = function(dataReader)
   console.log("no factory named "+factory);
   return 0;
 };
+//just says loading and sets up some stuff to load and waits for it
+//19/6/2015
+
+//a menu where you start the game
+//7/6/2015
+
+//a thing that plays sounds properly
+//8/6/2015
+
+
+//creates the SoundPlayer
+//src is the sound file it plays
+var SoundPlayer = function(src)
+{
+  this.sound = new Audio(src);
+  this.sound.ready = false;
+  this.sound.playing = false;
+
+  //when the sound can play all the way through
+  this.sound.oncanplaythrough = function()
+  {
+    this.ready = true;
+  };
+
+  //when the sound finishes playing
+  this.sound.onended = function()
+  {
+    this.playing = false;
+  };
+
+};
+
+//plays the sound
+SoundPlayer.prototype.play = function()
+{
+  if (this.sound.ready)
+  {
+    this.sound.currentTime = 0;
+    this.sound.play();
+    this.sound.playing = true;
+  }
+};
+
+
+//tells you if the sound is ready to play
+SoundPlayer.prototype.isReady = function()
+{
+  return this.sound.ready;
+};
+
+
+//tells you if the sound is currently playing
+SoundPlayer.prototype.isPlaying = function()
+{
+  return this.sound.playing;
+}
+//a scene that shows cutscenes
+//9/6/2015
+
+//loads things somehow
+//9/6/2015
+
+
+//creates the dataloader
+//url is the address of the data to load
+var DataLoader = function(url)
+{
+  this.iframe = document.createElement("iframe");
+  document.body.appendChild(this.iframe);
+  this.iframe.src = url;
+  this.iframe.hidden = true;
+  this.iframe.ready = false;
+  this.iframe.owner = this;
+  this.iframe.onload = function()
+  {
+    this.ready = true;
+  };
+};
+
+
+//tells you if the loader is ready yet
+//return true iff it is
+DataLoader.prototype.isReady = function()
+{
+  return this.iframe.ready;
+};
+
+//gets you the data that it loaded
+//return the data
+DataLoader.prototype.getData = function()
+{
+  if (!this.isReady())
+  {
+    console.log("bloody ebola");
+    return 666;
+  }
+
+  var iDocument = this.iframe.contentDocument || this.iframe.contentWindow.document;
+  return iDocument.getElementsByTagName("pre")[0].innerHTML;
+};
+//a slide in a CutScene
+//9/6/2015
+
+//a prototype for a thing that makes stuff
+//9/6/2015
+
+
+//makes a factory with a name
+var Factory = function(identifier)
+{
+  this.identifier = identifier;
+};
+
+
+//you are meant to override this to make it make whatever your heart desires!
+//data the content to make it from
+Factory.prototype.make = function(dataReader)
+{
+  console.log("Factory.make is meant to be overridden");
+};
+//a factory that makes graphics
+//9/6/2015
+
 //a graphic that just shows a picture
 //9/6/2015
 
@@ -358,7 +362,7 @@ const SE_DIRECTORY = "assets/se/";
 const MOB_DIRECTORY = "assets/mob/";
 
 //location of cutScene files
-const CUT_SCENE_DIRECTORY = "assets/cutscene/";
+const SCENE_DIRECTORY = "assets/scene/";
 
 
 //a singleton type thing which stores all of the assets we need and desire
@@ -367,7 +371,7 @@ var assets =
   graphics : [],
   sEs : [],
   mobDatas : [],
-  cutSceneDatas : []
+  sceneDatas : []
 };
 
 
@@ -427,19 +431,15 @@ assets.loadMobs = function(loadList)
 
 
 //makes it start loading data for cutscenes
-assets.loadCutsceneDatas = function(loadList)
+assets.loadSceneDatas = function(loadList)
 {
   var listReader = new StringReader(loadList);
 
   while (listReader.hasNext())
   {
     var name = listReader.readNext();
-    var loader = new DataLoader(CUT_SCENE_DIRECTORY + name);
-    loader.onload = function()
-    {
-      console.log(this.getData());
-    };
-    this.cutSceneDatas[name] = loader;
+    var loader = new DataLoader(SCENE_DIRECTORY + name);
+    this.sceneDatas[name] = loader;
   }
 };
 
@@ -810,11 +810,16 @@ makeSlide = function(dataReader)
 
 
 //creates the cutscene with no arguments
-var CutScene = function(slides)
+//slides is the slides that make up this CutScene
+//next is the factory input for the next scene
+var CutScene = function(slides,next)
 {
   //static properties
   CutScene.screenWidth = 777;
   CutScene.screenHeight = 555;
+
+  //the data of the scene that comes after this one
+  this.next = next;
 
   //the table which contains both the things
   this.table = document.createElement("table");
@@ -870,6 +875,11 @@ CutScene.prototype.update = function(deltaTime)
     this.bottomCell.removeChild(this.currentCaption);
   }
 
+  if (this.slides.length == 0)
+  {
+    return sceneFactory.make(new StringReader(assets.sceneDatas[this.next].getData()));
+  }
+
   this.slides[0].render(CutScene.screenWidth,CutScene.screenHeight,this.ctx,
                     deltaTime);
 
@@ -877,21 +887,30 @@ CutScene.prototype.update = function(deltaTime)
 };
 
 
+//a factory that makes CutScenes
+var cutSceneFactory = new Factory("CutScene");
+
+
 //the thing that makes the stuff
-var makeCutScene = function(data)
+cutSceneFactory.make = function(dataReader)
 {
-  var dataReader = new StringReader(data);
+  var next = dataReader.readNext();
 
   slides = [];
-  while (dataReader.hasNext())
+  while (true)
   {
+    data = dataReader.peekNext();
+    if (data == "END")
+    {
+      break;
+    }
     slides.push(makeSlide(dataReader));
   }
 
-  return new CutScene(slides);
+  return new CutScene(slides,next);
 };
 
-const FIRST_CUT_SCENE = "1.pig";
+const FIRST_SCENE = "start.pig";
 
 
 //creates the MenuScene with no arguments
@@ -935,7 +954,7 @@ MenuScene.prototype.delete = function()
   document.body.removeChild(this.subTitle);
   document.body.removeChild(this.picture);
   document.body.removeChild(this.fuckYeahs);
-}
+};
 
 
 //updates the MenuScene, although it does nothing
@@ -953,7 +972,7 @@ MenuScene.prototype.update = function(deltaTime)
     this.countdown -= deltaTime;
     if (this.countdown <= 0)
     {
-      return makeCutScene(assets.cutSceneDatas[FIRST_CUT_SCENE].getData());
+      return sceneFactory.make(new StringReader(assets.sceneDatas[FIRST_SCENE].getData()));
     }
   }
   return this;
@@ -979,7 +998,8 @@ var LoadingScene = function()
 
   assets.loadSEs("nice.wav_____buzz.wav_heyBilly.wav_inTheMainframe.wav_iNeedYou.wav_");
 
-  assets.loadCutsceneDatas("1.pig");
+  assets.loadSceneDatas("start.pig_drivingToWork.pig_");
+
 };
 
 
@@ -1016,11 +1036,30 @@ LoadingScene.prototype.update = function(deltaTime)
 };
 
 
+//a factory that makes LoadingScenes
+var loadingSceneFactory = new Factory("LoadingScene");
+
+
+//the thing that makes the stuff
+loadingSceneFactory.make = function(dataReader)
+{
+  return new LoadingScene();
+};
+
+
+//a factory that makes scenes
+var sceneFactory = new AbstractFactory(
+  [
+    loadingSceneFactory,cutSceneFactory
+  ]
+);
+
+
 //the frame rate type thing
 deltaTime = 1000.0/30;
 
 //the first scene
-scene = new LoadingScene();
+scene = sceneFactory.make(new StringReader("LoadingScene"));
 
 //the main loop of the game
 function main()
