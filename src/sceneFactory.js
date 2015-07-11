@@ -5,11 +5,12 @@
 $include AbstractFactory.js$
 $include LoadingScene.js$
 $include CutScene.js$
+$include DanmakuScene.js$
 
 
 //a factory that makes scenes
 var sceneFactory = new AbstractFactory(
   [
-    loadingSceneFactory,cutSceneFactory
+    loadingSceneFactory,cutSceneFactory,danmakuSceneFactory
   ]
 );
