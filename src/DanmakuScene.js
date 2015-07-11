@@ -3,6 +3,8 @@
 
 
 $include Tilemap.js$
+$include CanvasScene.js$
+$include constants.js$
 
 
 //a bullet that Wizzes around the scene at astounding speed!
@@ -40,7 +42,6 @@ var DanmakuScene = function(tilemap,bgmSrc)
 };
 
 
-
 //deletes the danmaku scene
 DanmakuScene.prototype.delete = function()
 {
@@ -55,9 +56,10 @@ DanmakuScene.prototype.delete = function()
 //deltaTime is the time since last time
 DanmakuScene.prototype.update = function(deltaTime)
 {
+  this.tilemap.render(this.ctx);
+
   return this;
 };
-
 
 
 //a factory that makes DanmakuScenes

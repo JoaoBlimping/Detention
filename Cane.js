@@ -1085,6 +1085,13 @@ Tileset.prototype.render = function(id,x,y,ctx)
   ctx.drawImage(this.image,this.tileWidth * (id - 1),0,this.tileWidth,
   			  this.tileHeight,x,y,this.tileWidth,this.tileHeight);
 };
+//contains some constants that may come in handy ;)
+//11/7/2015
+
+
+//screen size
+const SCREEN_WIDTH = 777;
+const SCREEN_HEIGHT = 444;
 
 
 //creates a Tilemap
@@ -1104,13 +1111,13 @@ Tilemap.prototype.render = function(ctx)
 {
 	//render background
 	ctx.fillStyle = "rgb(200,200,255)";//TODO: this ain't going to work like this
-	ctx.fillRect(0,0,canvas.width,canvas.height);
+	ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
 	//render tiles
 	var tX = Math.floor(this.cX / this.tileset.tileWidth);
 	var tY = Math.floor(this.cY / this.tileset.tileHeight);
-	var tW = Math.floor(canvas.width / this.tileset.tileWidth);
-	var tH = Math.floor(canvas.height / this.tileset.tileHeight);
+	var tW = Math.floor(SCREEN_WIDTH / this.tileset.tileWidth);
+	var tH = Math.floor(SCREEN_HEIGHT / this.tileset.tileHeight);
 
 	for (x = 0;x <= tW;x++)
 	{
@@ -1230,6 +1237,28 @@ tilemapFactory.make = function(dataReader)
 	}
 	return new Tilemap(data);
 };
+//a super prototype for scenes that have a screen
+//11/7/2015
+
+
+
+
+//creates the canvas
+var CanvasScene = function()
+{
+  this.canvas = document.createElement("canvas");
+  this.canvas.width = SCREEN_WIDTH;
+  this.canvas.height = SCREEN_HEIGHT;
+  document.body.appendChild(this.canvas);
+  this.ctx = this.canvas.getContext("2d");
+};
+
+
+//deletes the canvas
+CanvasScene.prototype.delete = function()
+{
+  document.body.removeChild(this.canvas);
+};
 
 
 //a bullet that Wizzes around the scene at astounding speed!
@@ -1253,6 +1282,10 @@ var Bullet = function(owner,physics,renderer,mover,damage)
 //bgmSrc is the src of the background music
 var DanmakuScene = function(tilemap,bgmSrc)
 {
+  //create the canvas
+  CanvasScene.call(this);
+
+  //put in all of this thing's things
   this.tilemap = tilemap;
 
   this.bgm = new Audio(bgmSrc);
@@ -1263,10 +1296,12 @@ var DanmakuScene = function(tilemap,bgmSrc)
 };
 
 
-
 //deletes the danmaku scene
 DanmakuScene.prototype.delete = function()
 {
+  //delete the canvas
+  CanvasScene.delete.call(this);
+
   //TODO: delete stuff I guess
 };
 
@@ -1275,10 +1310,10 @@ DanmakuScene.prototype.delete = function()
 //deltaTime is the time since last time
 DanmakuScene.prototype.update = function(deltaTime)
 {
-  console.log("updating !!");
+  this.tilemap.render(this.ctx);
+
   return this;
 };
-
 
 
 //a factory that makes DanmakuScenes

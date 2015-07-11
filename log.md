@@ -147,3 +147,14 @@ I have decided that I am going to make this game like not just have one play
 style but a whole heap and also a branching storyline kinda like revenge of the
 sunfish, but with a little bit more cohesion.
 Oh yeah and I also want to finish it before the end of the month for 1gam.
+
+#11/7/2015
+I then proceeded to get a cold and not feel like working on this for a few days.
+Anyway today I did some stuff to do with getting the danmaku level loading and
+stuff, I also made a superprototype that should work for all of the gameplay
+scenes to give them a canvas. I still want to finish this before the end of the
+month, but if I don't finish it until early next month I'll have a nice buffer
+zone for the future.
+Next time on Detention:
+ - Make it that different scenes can have different canvas sizes.
+ - Actually make tilemaps display tiles and shit.

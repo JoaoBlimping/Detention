@@ -4,6 +4,7 @@
 
 $include Tileset.js$
 $include Factory.js$
+$include constants.js$
 
 
 //creates a Tilemap
@@ -23,13 +24,13 @@ Tilemap.prototype.render = function(ctx)
 {
 	//render background
 	ctx.fillStyle = "rgb(200,200,255)";//TODO: this ain't going to work like this
-	ctx.fillRect(0,0,canvas.width,canvas.height);
+	ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
 	//render tiles
 	var tX = Math.floor(this.cX / this.tileset.tileWidth);
 	var tY = Math.floor(this.cY / this.tileset.tileHeight);
-	var tW = Math.floor(canvas.width / this.tileset.tileWidth);
-	var tH = Math.floor(canvas.height / this.tileset.tileHeight);
+	var tW = Math.floor(SCREEN_WIDTH / this.tileset.tileWidth);
+	var tH = Math.floor(SCREEN_HEIGHT / this.tileset.tileHeight);
 
 	for (x = 0;x <= tW;x++)
 	{
