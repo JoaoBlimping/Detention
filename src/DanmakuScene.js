@@ -2,6 +2,9 @@
 //7/7/2015
 
 
+$include Tilemap.js$
+
+
 //a bullet that Wizzes around the scene at astounding speed!
 //owner is the firer of this bullet
 //physics is it's physics component
@@ -23,9 +26,13 @@ var Bullet = function(owner,physics,renderer,mover,damage)
 //bgmSrc is the src of the background music
 var DanmakuScene = function(tilemap,bgmSrc)
 {
+  //create the canvas
+  CanvasScene.call(this);
+
+  //put in all of this thing's things
   this.tilemap = tilemap;
 
-  this.bgm = new Audio(bGMSrc);
+  this.bgm = new Audio(bgmSrc);
   this.bgm.play();
 
   this.bullets = [];
@@ -37,6 +44,9 @@ var DanmakuScene = function(tilemap,bgmSrc)
 //deletes the danmaku scene
 DanmakuScene.prototype.delete = function()
 {
+  //delete the canvas
+  CanvasScene.delete.call(this);
+
   //TODO: delete stuff I guess
 };
 
@@ -45,7 +55,7 @@ DanmakuScene.prototype.delete = function()
 //deltaTime is the time since last time
 DanmakuScene.prototype.update = function(deltaTime)
 {
-  console.log("updating !!");
+  return this;
 };
 
 

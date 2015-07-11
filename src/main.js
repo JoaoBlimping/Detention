@@ -7,15 +7,15 @@ $include sceneFactory.js$
 
 
 //the frame rate type thing
-deltaTime = 1000.0/30;
+var deltaTime = 1000.0/30;
 
 //the first scene
-scene = sceneFactory.make(new StringReader("LoadingScene"));
+var scene = sceneFactory.make(new StringReader("LoadingScene"));
 
 //the main loop of the game
 function main()
 {
-  newScene = scene.update(deltaTime / 1000);
+  var newScene = scene.update(deltaTime / 1000);
 
   if (newScene != scene)
   {
