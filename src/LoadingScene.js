@@ -20,7 +20,8 @@ var LoadingScene = function()
   //set up all the asset stuff loading
   assets.loadSprites("$insert ../sprites.txt$");
   assets.loadAnimations("$insert ../animations.txt$");
-  assets.loadSEs("$insert ../sEs.txt$");
+  assets.loadSes("$insert ../ses.txt$");
+  assets.loadTilesets("$insert ../tilesets.txt$");
   assets.loadSceneDatas("$insert ../scenes.txt$");
 };
 
@@ -37,18 +38,27 @@ LoadingScene.prototype.delete = function()
 LoadingScene.prototype.update = function(deltaTime)
 {
   //make sure all graphics are loaded
-  for (var name in assets.bGMs)
+  for (var name in assets.graphics)
   {
-    if (!assets.bGMs[name].ready)
+    if (!assets.graphics[name].ready)
     {
       return this;
     }
   }
 
   //make sure all sound effects are loaded
-  for (var name in assets.sEs)
+  for (var name in assets.ses)
   {
-    if (!assets.sEs[name].isReady())
+    if (!assets.ses[name].isReady())
+    {
+      return this;
+    }
+  }
+
+  //make sure all tilesets are loaded
+  for (var name in assets.tilesets)
+  {
+    if (!assets.tilesets[name].isReady())
     {
       return this;
     }

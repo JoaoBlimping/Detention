@@ -9,17 +9,20 @@ $include Sprite.js$
 //location of graphics files
 const GRAPHIC_DIRECTORY = "assets/graphic/";
 
-//location of music files
-const BGM_DIRECTORY = "assets/bgm/";
-
 //location of sounds effect files
 const SE_DIRECTORY = "assets/se/";
+
+//location of tileset files
+const TILESET_DIRECTORY = "assets/tilesets/"
 
 //location of mob files
 const MOB_DIRECTORY = "assets/mob/";
 
 //location of cutScene files
 const SCENE_DIRECTORY = "assets/scene/";
+
+//location of music files
+const BGM_DIRECTORY = "assets/bgm/";
 
 
 //a singleton type thing which stores all of the assets we need and desire
@@ -66,7 +69,7 @@ assets.loadAnimations = function(loadList)
 
 
 //makes it start loading sound effects
-assets.loadSEs = function(loadList)
+assets.loadSes = function(loadList)
 {
   var listReader = new StringReader(loadList);
 
@@ -74,7 +77,7 @@ assets.loadSEs = function(loadList)
   {
     var name = listReader.readNext();
     var audio = new SoundPlayer(SE_DIRECTORY + name);
-    this.sEs[name] = audio;
+    this.ses[name] = audio;
   }
 };
 
@@ -87,13 +90,14 @@ assets.loadTilesets = function(loadList)
 
   while (listReader.hasNext())
   {
-    var image = new Image(GRAPHIC_DIRECTORY + dataReader.readInt());
-    var tileWidth = parseInt(dataReader.readInt());
-  	var tileHeight = parseInt(dataReader.readInt());
+    var image = listReader.readNext()
+    var tileWidth = parseInt(listReader.readNext());
+  	var tileHeight = parseInt(listReader.readNext());
 
-  	this.tilesets[name] = new Tileset(image,tileWidth,tileHeight);
+    console.log(image);
+
+  	this.tilesets[image] = new Tileset(image,tileWidth,tileHeight);
   }
-
 };
 
 

@@ -139,7 +139,7 @@ var tilemapFactory = new Factory("Tilemap");
 //dataReader contains all the data it has to read
 tilemapFactory.make = function(dataReader)
 {
-	var tileset = 
+	var tileset = assets.tilesets[dataReader.readNext()]
 
 	var width = parseInt(dataReader.readNext());
 	var height = parseInt(dataReader.readNext());

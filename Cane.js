@@ -352,11 +352,11 @@ Animation.prototype.getHeight = function()
 //location of graphics files
 const GRAPHIC_DIRECTORY = "assets/graphic/";
 
-//location of music files
-const BGM_DIRECTORY = "assets/bgm/";
-
 //location of sounds effect files
 const SE_DIRECTORY = "assets/se/";
+
+//location of tileset files
+const TILESET_DIRECTORY = "assets/tilesets/"
 
 //location of mob files
 const MOB_DIRECTORY = "assets/mob/";
@@ -364,12 +364,16 @@ const MOB_DIRECTORY = "assets/mob/";
 //location of cutScene files
 const SCENE_DIRECTORY = "assets/scene/";
 
+//location of music files
+const BGM_DIRECTORY = "assets/bgm/";
+
 
 //a singleton type thing which stores all of the assets we need and desire
 var assets =
 {
   graphics : [],
-  sEs : [],
+  ses : [],
+  tilesets : [],
   mobDatas : [],
   sceneDatas : []
 };
@@ -408,7 +412,7 @@ assets.loadAnimations = function(loadList)
 
 
 //makes it start loading sound effects
-assets.loadSEs = function(loadList)
+assets.loadSes = function(loadList)
 {
   var listReader = new StringReader(loadList);
 
@@ -416,7 +420,26 @@ assets.loadSEs = function(loadList)
   {
     var name = listReader.readNext();
     var audio = new SoundPlayer(SE_DIRECTORY + name);
-    this.sEs[name] = audio;
+    this.ses[name] = audio;
+  }
+};
+
+
+//makes it start loading tilesets
+//loadlist is the list of tilesets to load
+assets.loadTilesets = function(loadList)
+{
+  var listReader = new StringReader(loadList);
+
+  while (listReader.hasNext())
+  {
+    var image = listReader.readNext()
+    var tileWidth = parseInt(listReader.readNext());
+  	var tileHeight = parseInt(listReader.readNext());
+
+    console.log(image);
+
+  	this.tilesets[image] = new Tileset(image,tileWidth,tileHeight);
   }
 };
 
@@ -996,7 +1019,9 @@ var LoadingScene = function()
 
   assets.loadAnimations("tear.png_3_0.5_walking.png_2_0.5_");
 
-  assets.loadSEs("nice.wav_____buzz.wav_heyBilly.wav_inTheMainframe.wav_iNeedYou.wav_");
+  assets.loadSes("nice.wav_____buzz.wav_heyBilly.wav_inTheMainframe.wav_iNeedYou.wav_");
+
+  assets.loadTilesets("sky.png_32_32_");
 
   assets.loadSceneDatas("start.pig_drivingToWork.pig_");
 
@@ -1015,18 +1040,28 @@ LoadingScene.prototype.delete = function()
 LoadingScene.prototype.update = function(deltaTime)
 {
   //make sure all graphics are loaded
-  for (var name in assets.bGMs)
+  for (var name in assets.graphics)
   {
-    if (!assets.bGMs[name].ready)
+    if (!assets.graphics[name].ready)
     {
       return this;
     }
   }
 
   //make sure all sound effects are loaded
-  for (var name in assets.sEs)
+  for (var name in assets.ses)
   {
-    if (!assets.sEs[name].isReady())
+    if (!assets.ses[name].isReady())
+    {
+      return this;
+    }
+  }
+
+  //make sure all tilesets are loaded
+  for (var name in assets.tilesets)
+  {
+    console.log(name);
+    if (!assets.tilesets[name].isReady())
     {
       return this;
     }
@@ -1057,16 +1092,25 @@ loadingSceneFactory.make = function(dataReader)
 //6/7/2015
 
 
+
+
 //creates the Tileset
+//imageSrc is the source of the image it gets the tiles from
 //tileWidth is the width of each tile
 //tileHeight is the height of each tile
-//image is the image it gets the tiles from
-var Tileset = function(tileWidth,tileHeight,image)
+var Tileset = function(imageSrc,tileWidth,tileHeight)
 {
+	this.image = new Image();
+	this.image.ready = false;
+	this.image.onload = function()
+	{
+		this.ready = true;
+		console.log("tileset " + GRAPHIC_DIRECTORY + imageSrc);
+	};
+	this.image.src = GRAPHIC_DIRECTORY + imageSrc;
+
 	this.tileWidth = tileWidth;
 	this.tileHeight = tileHeight;
-
-	this.image = image;
 };
 
 
@@ -1077,19 +1121,30 @@ var Tileset = function(tileWidth,tileHeight,image)
 //ctx is the rendering context
 Tileset.prototype.render = function(id,x,y,ctx)
 {
+	//if it really exists
 	if (id < 1)
   {
 		return;
   }
 
+	//draw it at the correct location
   ctx.drawImage(this.image,this.tileWidth * (id - 1),0,this.tileWidth,
   			  this.tileHeight,x,y,this.tileWidth,this.tileHeight);
 };
 
-//creates a Tilemap
-//data is the data in the Tilemap
-var Tilemap = function(data)
+
+//tells you if the Tileset is ready to groove
+Tileset.prototype.isReady = function()
 {
+	return this.image.ready;
+};
+
+//creates a Tilemap
+//tileset is the tileset it uses to draw the map <3
+//data is the data in the Tilemap
+var Tilemap = function(tileset,data)
+{
+	this.tileset = tileset;
 	this.data = data;
 
 	this.cX = 0;
@@ -1218,6 +1273,8 @@ var tilemapFactory = new Factory("Tilemap");
 //dataReader contains all the data it has to read
 tilemapFactory.make = function(dataReader)
 {
+	var tileset = assets.tilesets[dataReader.readNext()]
+
 	var width = parseInt(dataReader.readNext());
 	var height = parseInt(dataReader.readNext());
 

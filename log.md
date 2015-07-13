@@ -158,3 +158,8 @@ zone for the future.
 Next time on Detention:
  - Make it that different scenes can have different canvas sizes.
  - Actually make tilemaps display tiles and shit.
+
+#13/7/2015
+Ok, I have got the different canvas sizes thing working, but now before I can
+make it that tilemaps display properly, I have to make it that the tilesets that
+they use can be loaded and work. <3
