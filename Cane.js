@@ -1085,14 +1085,6 @@ Tileset.prototype.render = function(id,x,y,ctx)
   ctx.drawImage(this.image,this.tileWidth * (id - 1),0,this.tileWidth,
   			  this.tileHeight,x,y,this.tileWidth,this.tileHeight);
 };
-//contains some constants that may come in handy ;)
-//11/7/2015
-
-
-//screen size
-const SCREEN_WIDTH = 777;
-const SCREEN_HEIGHT = 444;
-
 
 //creates a Tilemap
 //data is the data in the Tilemap
@@ -1107,17 +1099,19 @@ var Tilemap = function(data)
 
 //displays the Tilemap
 //ctx is the rendering context
-Tilemap.prototype.render = function(ctx)
+//screenWidth is the width of the screen
+//screenHeight is the height of the screen
+Tilemap.prototype.render = function(ctx,screenWidth,screenHeight)
 {
 	//render background
 	ctx.fillStyle = "rgb(200,200,255)";//TODO: this ain't going to work like this
-	ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+	ctx.fillRect(0,0,screenWidth,screenHeight);
 
 	//render tiles
 	var tX = Math.floor(this.cX / this.tileset.tileWidth);
 	var tY = Math.floor(this.cY / this.tileset.tileHeight);
-	var tW = Math.floor(SCREEN_WIDTH / this.tileset.tileWidth);
-	var tH = Math.floor(SCREEN_HEIGHT / this.tileset.tileHeight);
+	var tW = Math.floor(screenWidth / this.tileset.tileWidth);
+	var tH = Math.floor(screenHeight / this.tileset.tileHeight);
 
 	for (x = 0;x <= tW;x++)
 	{
@@ -1176,7 +1170,9 @@ Tilemap.prototype.passableRect = function(x,y,w,h)
 //centre's the Tilemap's camera
 //x is the horizontal position to centre on
 //y is the vertical position to centre on
-Tilemap.prototype.centre = function(x,y)
+//screenWidth is the width of the screen
+//screenHeight is the height of the screen
+Tilemap.prototype.centre = function(x,y,screenWidth,screenHeight)
 {
 	if (this.ready)
 	{
@@ -1191,11 +1187,11 @@ Tilemap.prototype.centre = function(x,y)
 		if (this.cY < 0)
 			this.cY = 0;
 
-		if (this.cX > this.data.length * this.tileset.tileWidth - canvas.width)
-			this.cX = this.data.length * this.tileset.tileWidth - canvas.width;
+		if (this.cX > this.data.length * this.tileset.tileWidth - screenWidth)
+			this.cX = this.data.length * this.tileset.tileWidth - screenWidth;
 
-		if (this.cY > this.data[0].length * this.tileset.tileHeight - canvas.height)
-			this.cY = this.data[0].length * this.tileset.tileHeight - canvas.height;
+		if (this.cY > this.data[0].length * this.tileset.tileHeight - screenHeight)
+			this.cY = this.data[0].length * this.tileset.tileHeight - screenHeight;
 	}
 };
 
@@ -1241,14 +1237,14 @@ tilemapFactory.make = function(dataReader)
 //11/7/2015
 
 
-
-
 //creates the canvas
-var CanvasScene = function()
+//screenWidth is the width of the canvas
+//screenHeight is the height of the canvas
+var CanvasScene = function(screenWidth,screenHeight)
 {
   this.canvas = document.createElement("canvas");
-  this.canvas.width = SCREEN_WIDTH;
-  this.canvas.height = SCREEN_HEIGHT;
+  this.canvas.width = screenWidth;
+  this.canvas.height = screenHeight;
   document.body.appendChild(this.canvas);
   this.ctx = this.canvas.getContext("2d");
 };
@@ -1259,6 +1255,10 @@ CanvasScene.prototype.delete = function()
 {
   document.body.removeChild(this.canvas);
 };
+
+
+const DANMAKU_SCENE_WIDTH = 444;
+const DANMAKU_SCENE_HEIGHT = 777;
 
 
 //a bullet that Wizzes around the scene at astounding speed!
@@ -1283,7 +1283,7 @@ var Bullet = function(owner,physics,renderer,mover,damage)
 var DanmakuScene = function(tilemap,bgmSrc)
 {
   //create the canvas
-  CanvasScene.call(this);
+  CanvasScene.call(this,DANMAKU_SCENE_WIDTH,DANMAKU_SCENE_HEIGHT);
 
   //put in all of this thing's things
   this.tilemap = tilemap;

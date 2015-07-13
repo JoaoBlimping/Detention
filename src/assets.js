@@ -26,7 +26,8 @@ const SCENE_DIRECTORY = "assets/scene/";
 var assets =
 {
   graphics : [],
-  sEs : [],
+  ses : [],
+  tilesets : [],
   mobDatas : [],
   sceneDatas : []
 };
@@ -75,6 +76,24 @@ assets.loadSEs = function(loadList)
     var audio = new SoundPlayer(SE_DIRECTORY + name);
     this.sEs[name] = audio;
   }
+};
+
+
+//makes it start loading tilesets
+//loadlist is the list of tilesets to load
+assets.loadTilesets = function(loadList)
+{
+  var listReader = new StringReader(loadList);
+
+  while (listReader.hasNext())
+  {
+    var image = new Image(GRAPHIC_DIRECTORY + dataReader.readInt());
+    var tileWidth = parseInt(dataReader.readInt());
+  	var tileHeight = parseInt(dataReader.readInt());
+
+  	this.tilesets[name] = new Tileset(image,tileWidth,tileHeight);
+  }
+
 };
 
 

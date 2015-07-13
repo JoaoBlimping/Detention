@@ -4,7 +4,10 @@
 
 $include Tilemap.js$
 $include CanvasScene.js$
-$include constants.js$
+
+
+const DANMAKU_SCENE_WIDTH = 444;
+const DANMAKU_SCENE_HEIGHT = 777;
 
 
 //a bullet that Wizzes around the scene at astounding speed!
@@ -29,7 +32,7 @@ var Bullet = function(owner,physics,renderer,mover,damage)
 var DanmakuScene = function(tilemap,bgmSrc)
 {
   //create the canvas
-  CanvasScene.call(this);
+  CanvasScene.call(this,DANMAKU_SCENE_WIDTH,DANMAKU_SCENE_HEIGHT);
 
   //put in all of this thing's things
   this.tilemap = tilemap;

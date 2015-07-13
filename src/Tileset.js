@@ -2,16 +2,19 @@
 //6/7/2015
 
 
+$include assets.js$
+
+
 //creates the Tileset
 //tileWidth is the width of each tile
 //tileHeight is the height of each tile
 //image is the image it gets the tiles from
-var Tileset = function(tileWidth,tileHeight,image)
+var Tileset = function(image,tileWidth,tileHeight)
 {
+	this.image = image;
+
 	this.tileWidth = tileWidth;
 	this.tileHeight = tileHeight;
-
-	this.image = image;
 };
 
 
