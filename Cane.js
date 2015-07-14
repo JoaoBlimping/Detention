@@ -1060,7 +1060,6 @@ LoadingScene.prototype.update = function(deltaTime)
   //make sure all tilesets are loaded
   for (var name in assets.tilesets)
   {
-    console.log(name);
     if (!assets.tilesets[name].isReady())
     {
       return this;
