@@ -5,6 +5,10 @@
 $include Tileset.js$
 $include Factory.js$
 
+
+const Z_DEPTH = 3;
+
+
 //creates a Tilemap
 //tileset is the tileset it uses to draw the map <3
 //data is the data in the Tilemap
@@ -147,12 +151,25 @@ tilemapFactory.make = function(dataReader)
 
 	data = [];
 
-	for (var y = 0;y < height;y++)
+	//make the rows
+	for (var x = 0;x < width;x++)
 	{
-		data[y] = [];
-		for (var x = 0;x < width;x++)
+		data[x] = [];
+		for (var y = 0;y < height;y++)
 		{
-			data[x][y] = parseInt(dataReader.readNext());
+			data[x][y] = [];
+		}
+	}
+
+	//fill in the data
+	for (var z = 0;z < Z_DEPTH;z++)
+	{
+		for (var y = 0;y < height;y++)
+		{
+			for (var x = 0;x < width;x++)
+			{
+				data[x][y][z] = parseInt(dataReader.readNext());
+			}
 		}
 	}
 	return new Tilemap(tileset,data);

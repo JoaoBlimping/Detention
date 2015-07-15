@@ -6,8 +6,8 @@ $include Tilemap.js$
 $include CanvasScene.js$
 
 
-const DANMAKU_SCENE_WIDTH = 444;
-const DANMAKU_SCENE_HEIGHT = 777;
+const DANMAKU_SCENE_WIDTH = 800;
+const DANMAKU_SCENE_HEIGHT = 480;
 
 
 //a bullet that Wizzes around the scene at astounding speed!

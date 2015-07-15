@@ -1018,7 +1018,7 @@ var LoadingScene = function()
 
   assets.loadSes("nice.wav_____buzz.wav_heyBilly.wav_inTheMainframe.wav_iNeedYou.wav_");
 
-  assets.loadTilesets("sky.png_32_32_");
+  assets.loadTilesets("teaching2.png_40_40_");
 
   assets.loadSceneDatas("start.pig_drivingToWork.pig_");
 
@@ -1134,6 +1134,10 @@ Tileset.prototype.isReady = function()
 {
 	return this.image.ready;
 };
+
+
+const Z_DEPTH = 3;
+
 
 //creates a Tilemap
 //tileset is the tileset it uses to draw the map <3
@@ -1272,19 +1276,30 @@ tilemapFactory.make = function(dataReader)
 	var tilesetName = dataReader.readNext();
 	var tileset = assets.tilesets[tilesetName]
 
-	console.log(tilesetName);
-
 	var width = parseInt(dataReader.readNext());
 	var height = parseInt(dataReader.readNext());
 
 	data = [];
 
-	for (var y = 0;y < height;y++)
+	//make the rows
+	for (var x = 0;x < width;x++)
 	{
-		data[y] = [];
-		for (var x = 0;x < width;x++)
+		data[x] = [];
+		for (var y = 0;y < height;y++)
 		{
-			data[x][y] = parseInt(dataReader.readNext());
+			data[x][y] = [];
+		}
+	}
+
+	//fill in the data
+	for (var z = 0;z < Z_DEPTH;z++)
+	{
+		for (var y = 0;y < height;y++)
+		{
+			for (var x = 0;x < width;x++)
+			{
+				data[x][y][z] = parseInt(dataReader.readNext());
+			}
 		}
 	}
 	return new Tilemap(tileset,data);
@@ -1313,8 +1328,8 @@ CanvasScene.prototype.delete = function()
 };
 
 
-const DANMAKU_SCENE_WIDTH = 444;
-const DANMAKU_SCENE_HEIGHT = 777;
+const DANMAKU_SCENE_WIDTH = 800;
+const DANMAKU_SCENE_HEIGHT = 480;
 
 
 //a bullet that Wizzes around the scene at astounding speed!
