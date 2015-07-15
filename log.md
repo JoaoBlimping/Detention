@@ -163,3 +163,11 @@ Next time on Detention:
 Ok, I have got the different canvas sizes thing working, but now before I can
 make it that tilemaps display properly, I have to make it that the tilesets that
 they use can be loaded and work. <3
+
+#15/7/2015
+Hehe, I'm **programming** in the **Pine Forest**. Now my code will have mad
+forest vibes.
+I am cold.
+Ok I have sorted all that mess out and am ready to get back to by task of
+getting tile maps to display their tiles, which shouldn't be **particularly
+hard**.

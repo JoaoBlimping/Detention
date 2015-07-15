@@ -404,7 +404,6 @@ assets.loadAnimations = function(loadList)
     var frames = parseInt(listReader.readNext());
     var length = parseFloat(listReader.readNext());
 
-    console.log(name);
     var img = new Animation(GRAPHIC_DIRECTORY + name,frames,length);
     this.graphics[name] = img;
   }
@@ -436,8 +435,6 @@ assets.loadTilesets = function(loadList)
     var image = listReader.readNext()
     var tileWidth = parseInt(listReader.readNext());
   	var tileHeight = parseInt(listReader.readNext());
-
-    console.log(image);
 
   	this.tilesets[image] = new Tileset(image,tileWidth,tileHeight);
   }
@@ -824,7 +821,7 @@ Slide.prototype.render = function(screenWidth,screenHeight,ctx,deltaTime)
 //data is the data it makes it out of
 makeSlide = function(dataReader)
 {
-  sound = assets.sEs[dataReader.readNext()];
+  sound = assets.ses[dataReader.readNext()];
   graphic = graphicFactory.make(dataReader);
   text = dataReader.readNext();
 
@@ -955,7 +952,7 @@ var MenuScene = function()
   //create the picture
   this.picture = new Image();
   this.picture.src = "assets/graphic/begin.png";
-  this.picture.noise = assets.sEs["nice.wav"];
+  this.picture.noise = assets.ses["nice.wav"];
   this.picture.owner = this;
   this.picture.onclick = function()
   {
@@ -1042,7 +1039,7 @@ LoadingScene.prototype.update = function(deltaTime)
   //make sure all graphics are loaded
   for (var name in assets.graphics)
   {
-    if (!assets.graphics[name].ready)
+    if (!assets.graphics[name].isReady())
     {
       return this;
     }
@@ -1060,12 +1057,12 @@ LoadingScene.prototype.update = function(deltaTime)
   //make sure all tilesets are loaded
   for (var name in assets.tilesets)
   {
+    console.log("tileset " + name);
     if (!assets.tilesets[name].isReady())
     {
       return this;
     }
   }
-
   return new MenuScene();
 };
 
@@ -1158,7 +1155,7 @@ var Tilemap = function(tileset,data)
 Tilemap.prototype.render = function(ctx,screenWidth,screenHeight)
 {
 	//render background
-	ctx.fillStyle = "rgb(200,200,255)";//TODO: this ain't going to work like this
+	ctx.fillStyle = "rgb(200,200,255)";//TODO: actually store a sky colour
 	ctx.fillRect(0,0,screenWidth,screenHeight);
 
 	//render tiles
@@ -1272,7 +1269,10 @@ var tilemapFactory = new Factory("Tilemap");
 //dataReader contains all the data it has to read
 tilemapFactory.make = function(dataReader)
 {
-	var tileset = assets.tilesets[dataReader.readNext()]
+	var tilesetName = dataReader.readNext();
+	var tileset = assets.tilesets[tilesetName]
+
+	console.log(tilesetName);
 
 	var width = parseInt(dataReader.readNext());
 	var height = parseInt(dataReader.readNext());
@@ -1281,13 +1281,13 @@ tilemapFactory.make = function(dataReader)
 
 	for (var y = 0;y < height;y++)
 	{
-		data[x] = [];
+		data[y] = [];
 		for (var x = 0;x < width;x++)
 		{
 			data[x][y] = parseInt(dataReader.readNext());
 		}
 	}
-	return new Tilemap(data);
+	return new Tilemap(tileset,data);
 };
 //a super prototype for scenes that have a screen
 //11/7/2015
@@ -1366,7 +1366,7 @@ DanmakuScene.prototype.delete = function()
 //deltaTime is the time since last time
 DanmakuScene.prototype.update = function(deltaTime)
 {
-  this.tilemap.render(this.ctx);
+  this.tilemap.render(this.ctx,DANMAKU_SCENE_WIDTH,DANMAKU_SCENE_HEIGHT);
 
   return this;
 };
@@ -1380,6 +1380,7 @@ var danmakuSceneFactory = new Factory("DanmakuScene");
 //dataReader is a StringReader containing the data
 danmakuSceneFactory.make = function(dataReader)
 {
+  dataReader.readNext();//TODO: i'll actually need this data one day
   var tilemap = tilemapFactory.make(dataReader);
   var bgmSrc = dataReader.readNext();
   return new DanmakuScene(tilemap,bgmSrc);

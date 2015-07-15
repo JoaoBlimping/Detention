@@ -28,7 +28,7 @@ var MenuScene = function()
   //create the picture
   this.picture = new Image();
   this.picture.src = "assets/graphic/begin.png";
-  this.picture.noise = assets.sEs["nice.wav"];
+  this.picture.noise = assets.ses["nice.wav"];
   this.picture.owner = this;
   this.picture.onclick = function()
   {

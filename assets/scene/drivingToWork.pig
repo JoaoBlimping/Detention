@@ -1,7 +1,7 @@
 DanmakuScene
 drivingToWork.pig
 ___
-outside.pig
+sky.png
 10
 10
 1_3_1_2_1_1_1_1_1_2

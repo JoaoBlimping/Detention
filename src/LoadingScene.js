@@ -40,7 +40,7 @@ LoadingScene.prototype.update = function(deltaTime)
   //make sure all graphics are loaded
   for (var name in assets.graphics)
   {
-    if (!assets.graphics[name].ready)
+    if (!assets.graphics[name].isReady())
     {
       return this;
     }
@@ -58,12 +58,12 @@ LoadingScene.prototype.update = function(deltaTime)
   //make sure all tilesets are loaded
   for (var name in assets.tilesets)
   {
+    console.log("tileset " + name);
     if (!assets.tilesets[name].isReady())
     {
       return this;
     }
   }
-
   return new MenuScene();
 };
 

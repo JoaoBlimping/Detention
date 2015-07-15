@@ -61,7 +61,6 @@ assets.loadAnimations = function(loadList)
     var frames = parseInt(listReader.readNext());
     var length = parseFloat(listReader.readNext());
 
-    console.log(name);
     var img = new Animation(GRAPHIC_DIRECTORY + name,frames,length);
     this.graphics[name] = img;
   }
@@ -93,8 +92,6 @@ assets.loadTilesets = function(loadList)
     var image = listReader.readNext()
     var tileWidth = parseInt(listReader.readNext());
   	var tileHeight = parseInt(listReader.readNext());
-
-    console.log(image);
 
   	this.tilesets[image] = new Tileset(image,tileWidth,tileHeight);
   }

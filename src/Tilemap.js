@@ -25,7 +25,7 @@ var Tilemap = function(tileset,data)
 Tilemap.prototype.render = function(ctx,screenWidth,screenHeight)
 {
 	//render background
-	ctx.fillStyle = "rgb(200,200,255)";//TODO: this ain't going to work like this
+	ctx.fillStyle = "rgb(200,200,255)";//TODO: actually store a sky colour
 	ctx.fillRect(0,0,screenWidth,screenHeight);
 
 	//render tiles
@@ -139,7 +139,8 @@ var tilemapFactory = new Factory("Tilemap");
 //dataReader contains all the data it has to read
 tilemapFactory.make = function(dataReader)
 {
-	var tileset = assets.tilesets[dataReader.readNext()]
+	var tilesetName = dataReader.readNext();
+	var tileset = assets.tilesets[tilesetName]
 
 	var width = parseInt(dataReader.readNext());
 	var height = parseInt(dataReader.readNext());
@@ -148,11 +149,11 @@ tilemapFactory.make = function(dataReader)
 
 	for (var y = 0;y < height;y++)
 	{
-		data[x] = [];
+		data[y] = [];
 		for (var x = 0;x < width;x++)
 		{
 			data[x][y] = parseInt(dataReader.readNext());
 		}
 	}
-	return new Tilemap(data);
+	return new Tilemap(tileset,data);
 };

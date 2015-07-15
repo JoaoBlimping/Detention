@@ -41,7 +41,7 @@ Slide.prototype.render = function(screenWidth,screenHeight,ctx,deltaTime)
 //data is the data it makes it out of
 makeSlide = function(dataReader)
 {
-  sound = assets.sEs[dataReader.readNext()];
+  sound = assets.ses[dataReader.readNext()];
   graphic = graphicFactory.make(dataReader);
   text = dataReader.readNext();
 

@@ -59,7 +59,7 @@ DanmakuScene.prototype.delete = function()
 //deltaTime is the time since last time
 DanmakuScene.prototype.update = function(deltaTime)
 {
-  this.tilemap.render(this.ctx);
+  this.tilemap.render(this.ctx,DANMAKU_SCENE_WIDTH,DANMAKU_SCENE_HEIGHT);
 
   return this;
 };
@@ -73,6 +73,7 @@ var danmakuSceneFactory = new Factory("DanmakuScene");
 //dataReader is a StringReader containing the data
 danmakuSceneFactory.make = function(dataReader)
 {
+  dataReader.readNext();//TODO: i'll actually need this data one day
   var tilemap = tilemapFactory.make(dataReader);
   var bgmSrc = dataReader.readNext();
   return new DanmakuScene(tilemap,bgmSrc);
