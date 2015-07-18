@@ -4,6 +4,7 @@
 
 $include Tilemap.js$
 $include CanvasScene.js$
+$include assets.js$
 
 
 const DANMAKU_SCENE_WIDTH = 800;
@@ -37,7 +38,8 @@ var DanmakuScene = function(tilemap,bgmSrc)
   //put in all of this thing's things
   this.tilemap = tilemap;
 
-  this.bgm = new Audio(bgmSrc);
+  this.bgm = new Audio(BGM_DIRECTORY + bgmSrc);
+  this.bgm.loop = true;
   this.bgm.play();
 
   this.bullets = [];
